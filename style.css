@@ -50,16 +50,12 @@ body {
 
 .main-container .grid {
   display: grid;
-  grid-template-rows: 120px 120px 120px;
+  grid-template-columns: 120px 120px 120px;;
   margin-bottom: 20px;
 }
 
-.top, .middle, .bottom {
-  display: flex;
-}
-
-
 .grid .cell {
+  height: 120px;
   width: 120px;
   border: var(--border-style);
   cursor: pointer;
@@ -80,11 +76,11 @@ button {
   width: 350px;
   background-color: teal;
   border-radius: 10px;
-  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 10px;
+  display: none;
 }
 
 .difficulty-container span {
