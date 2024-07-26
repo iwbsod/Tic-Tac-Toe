@@ -8,25 +8,39 @@
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
   <title>Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="main-container">
     <h1>Tic-Tac-Toe</h1>
+    <div class="scores-container">
+
+      <div class="human-score-container score">
+        <img src="assets/monkey.png" alt="">
+        <span class="js-human-score human-score">: 0</span>
+      </div>
+
+      <div class="robot-score-container score">
+        <span class="js-robot-score robot-score">0 :</span>
+        <img src="assets/robot.png" alt="">
+      </div>
+
+    </div>
     <div class="grid js-grid">
       <div class="top">
-        <div class="left"></div>
-        <div class="middle"></div>
-        <div class="right"></div>
+        <div class="cell left"></div>
+        <div class="cell middle"></div>
+        <div class="cell right"></div>
       </div>
       <div class="middle">
-        <div class="left"></div>
-        <div class="middle"></div>
-        <div class="right"></div>
+        <div class="cell left"></div>
+        <div class="cell middle"></div>
+        <div class="cell right"></div>
       </div>
       <div class="bottom">
-        <div class="left"></div>
-        <div class="middle"></div>
-        <div class="right"></div>
+        <div class="cell left"></div>
+        <div class="cell middle"></div>
+        <div class="cell right"></div>
       </div>
     </div>
 
@@ -35,5 +49,7 @@
       <button class="reset-button js-reset-button">reset Score</button>
     </div>
   </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
