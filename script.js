@@ -66,6 +66,82 @@ const matchPosition = (position, lineClassification, grid, player) => {
   }
 }
 
+const getRandomNumber = () => {
+  return Math.floor(Math.random() * 3)
+}
+
+const getRandomMove = (grid, lineClassificationName) => {
+  const lineClassification = grid[`${lineClassificationName}s`]
+  const randomLineNumber = [1, 2, 3][getRandomNumber()]
+  const line = lineClassification[`${lineClassificationName}${randomLineNumber}`]
+  console.log(line)
+  let numOfUsed = 0
+  const usedCells = [] //[0]
+
+  for (const [lineName, lineValue] of Object.entries(line)) {
+    if (lineValue.length === 2) {
+      numOfUsed++
+      usedCells.push(lineName)
+    }
+  }
+
+  console.log(numOfUsed, usedCells)
+
+  if (numOfUsed === 0) {
+    const randomCellNumber = getRandomNumber()
+    const randomCell = Object.keys(line)[randomCellNumber]
+    
+    line[randomCell].push('computer')
+    line[randomCell][0] = true
+    console.log(randomCell)
+    return randomCell
+  } else if (numOfUsed === 1) {
+    const unusedCells = []
+
+    for (const lineName of Object.keys(line)) {
+      if (lineName !== usedCells[0]) {
+        unusedCells.push(lineName)
+      }
+    }
+
+    const randomCell = unusedCells[Math.floor(Math.random() * 2)]
+    line[randomCell].push('computer')
+    line[randomCell][0] = true
+    console.log(randomCell)
+    return randomCell
+  } else if (numOfUsed === 2) {
+    for (const lineName of Object.keys(line)) {
+      if (lineName !== usedCells[0] || lineName !== usedCells[1]) {
+        line[lineName].push('computer')
+        line[lineName] = true
+        console.log(lineName)
+        return lineName
+      }
+    }
+  } else if (numOfUsed === 3) {
+    getRandomMove(lineClassificationName)
+  }
+}
+
+const computerMove = (cells, grid) => {
+  const lineClassificationNum = getRandomNumber()
+  let randomCell;
+
+  if (lineClassificationNum === 0) {
+    randomCell = getRandomMove(grid, 'row')
+  } else if (lineClassificationNum === 1) {
+    randomCell = getRandomMove(grid, 'column')
+  } else if (lineClassificationNum === 2) {
+    randomCell = getRandomMove(grid, 'diagonal')
+  }
+
+  cells.forEach((cell) => {
+    if (cell.id === randomCell) {
+      cell.innerHTML = `<img class="cell-image" src="assets/robot.png" alt="">`
+    }
+  })
+}
+
 const playerMove = (cells, grid, player) => {
   cells.forEach((cell) => {
     cell.addEventListener('click', () => {
@@ -79,53 +155,11 @@ const playerMove = (cells, grid, player) => {
       checkLines('diagonals', grid)
 
       cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
+
+      computerMove(cells, grid)
+
     })
   })
-}
-
-const getRandomNumber = () => {
-  return Math.floor(Math.random() * 3)
-}
-
-const getRandomMove = (lineClassificationName) => {
-  const lineClassification = grid[`${lineClassificationName}s`]
-  const randomLineNumber = [1, 2, 3][getRandomNumber()]
-  console.log(`${lineClassificationName}${randomLineNumber}`)
-  const line = lineClassification[`${lineClassificationName}${randomLineNumber}`]
-  console.log(line)
-  
-  let numOfUsed = 0
-
-
-  for (const lineValue of Object.values(line)) {
-    if (lineValue.length === 2) {
-      numOfUsed++
-    }
-  }
-
-  if (numOfUsed === 0) {
-    const randomCellNumber = getRandomNumber()
-    const randomCell = Object.keys(line)[randomCellNumber]
-    
-    line[randomCell].push('computer')
-    line[randomCell][0] = true
-
-    return randomCell
-  }
-}
-
-const computerMove = (cells, grid) => {
-  const lineClassificationNum = getRandomNumber()
-
-  console.log(lineClassificationNum)
-  if (lineClassificationNum === 0) {
-    const randomCell = getRandomMove('row')
-  } else if (lineClassificationNum === 1) {
-    const randomCell = getRandomMove('column')
-  } else if (lineClassificationNum === 2) {
-    const randomCell = getRandomMove('diagonal')
-  }
-
 }
 
 const startGame = () => {
