@@ -83,6 +83,51 @@ const playerMove = (cells, grid, player) => {
   })
 }
 
+const getRandomNumber = () => {
+  return Math.floor(Math.random() * 3)
+}
+
+const getRandomMove = (lineClassificationName) => {
+  const lineClassification = grid[`${lineClassificationName}s`]
+  const randomLineNumber = [1, 2, 3][getRandomNumber()]
+  console.log(`${lineClassificationName}${randomLineNumber}`)
+  const line = lineClassification[`${lineClassificationName}${randomLineNumber}`]
+  console.log(line)
+  
+  let numOfUsed = 0
+
+
+  for (const lineValue of Object.values(line)) {
+    if (lineValue.length === 2) {
+      numOfUsed++
+    }
+  }
+
+  if (numOfUsed === 0) {
+    const randomCellNumber = getRandomNumber()
+    const randomCell = Object.keys(line)[randomCellNumber]
+    
+    line[randomCell].push('computer')
+    line[randomCell][0] = true
+
+    return randomCell
+  }
+}
+
+const computerMove = (cells, grid) => {
+  const lineClassificationNum = getRandomNumber()
+
+  console.log(lineClassificationNum)
+  if (lineClassificationNum === 0) {
+    const randomCell = getRandomMove('row')
+  } else if (lineClassificationNum === 1) {
+    const randomCell = getRandomMove('column')
+  } else if (lineClassificationNum === 2) {
+    const randomCell = getRandomMove('diagonal')
+  }
+
+}
+
 const startGame = () => {
   startGameButton.addEventListener('click', () => {
     generateGrid()
