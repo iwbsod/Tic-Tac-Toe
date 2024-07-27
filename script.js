@@ -66,13 +66,13 @@ const matchPosition = (position, lineClassification, grid, player) => {
   }
 }
 
-const getRandomNumber = () => {
-  return Math.floor(Math.random() * 3)
+const getRandomNumber = (num) => {
+  return Math.floor(Math.random() * num)
 }
 
 const getRandomMove = (grid, lineClassificationName) => {
   const lineClassification = grid[`${lineClassificationName}s`]
-  const randomLineNumber = [1, 2, 3][getRandomNumber()]
+  const randomLineNumber = [1, 2, 3][getRandomNumber(3)]
   const line = lineClassification[`${lineClassificationName}${randomLineNumber}`]
   console.log(line)
   let numOfUsed = 0
@@ -88,7 +88,7 @@ const getRandomMove = (grid, lineClassificationName) => {
   console.log(numOfUsed, usedCells)
 
   if (numOfUsed === 0) {
-    const randomCellNumber = getRandomNumber()
+    const randomCellNumber = getRandomNumber(3)
     const randomCell = Object.keys(line)[randomCellNumber]
     
     line[randomCell].push('computer')
@@ -104,7 +104,7 @@ const getRandomMove = (grid, lineClassificationName) => {
       }
     }
 
-    const randomCell = unusedCells[Math.floor(Math.random() * 2)]
+    const randomCell = unusedCells[getRandomNumber(2)]
     line[randomCell].push('computer')
     line[randomCell][0] = true
     console.log(randomCell)
@@ -124,7 +124,7 @@ const getRandomMove = (grid, lineClassificationName) => {
 }
 
 const computerMove = (cells, grid) => {
-  const lineClassificationNum = getRandomNumber()
+  const lineClassificationNum = getRandomNumber(3)
   let randomCell;
 
   if (lineClassificationNum === 0) {
