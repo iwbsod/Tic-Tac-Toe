@@ -42,19 +42,12 @@ const chooseDifficulty = () => {
   })
 }
 
-//I figured out the problem, object.values' elements are arrays so if you compare them with object.every, it returns false since arrays are reference types
 const checkLines = (lineClassification, grid) => {
   for (const [lineName, line] of Object.entries(grid[lineClassification])) {
     const state = Object.values(line).map(subArray => subArray[0])
     const player = Object.values(line).map(subArray => subArray[1])
 
-    console.log('object', Object.values(line))
-    console.log(state)
-    console.log(player)
-
-    //How to check if all is true and 
-
-    if (state.every(value => value === true) && player.every(value => value !== undefined)) {
+    if (state.every(value => value === true) && player.every(value => value === player[0] && value !== undefined)) {
       console.log('congrats')
     }
   }
@@ -82,8 +75,8 @@ const playerMove = (cells, grid, player) => {
       matchPosition(cellId, 'columns', grid, player)
       matchPosition(cellId, 'diagonals', grid, player)
       checkLines('rows', grid)
-      // checkLines('columns', grid)
-      // checkLines('diagonals', grid)
+      checkLines('columns', grid)
+      checkLines('diagonals', grid)
 
       cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
     })
