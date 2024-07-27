@@ -59,6 +59,13 @@ body {
   width: 120px;
   border: var(--border-style);
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell .cell-image {
+  height: 60px;
 }
 
 button {
