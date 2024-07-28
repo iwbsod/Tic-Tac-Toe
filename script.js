@@ -1,5 +1,5 @@
-const monkeyScore = document.querySelector('.js-human-score')
-const robotScore = document.querySelector('.js-robot-score')
+const monkeyScoreElement = document.querySelector('.js-human-score')
+const computerScoreElement = document.querySelector('.js-robot-score')
 const gridDisplay = document.querySelector('.js-grid')
 const difficultyDisplay = document.querySelector('.js-difficulty-container')
 const startGameButton = document.querySelector('.js-start-button')
@@ -7,6 +7,8 @@ const resetGameButton = document.querySelector('.js-reset-button')
 const easyButton = document.querySelector('.js-easy-button')
 const mediumButton = document.querySelector('.js-medium-button')
 const hardButton = document.querySelector('.js-hard-button')
+let monkeyScore = 0
+let computerScore = 0
 
 const generateGrid = () => {
   let gridHTML = ''
@@ -42,6 +44,11 @@ const chooseDifficulty = () => {
   })
 }
 
+const trackScore = () => {
+  monkeyScoreElement.innerHTML = `: ${monkeyScore}`;
+  computerScoreElement.innerHTML = `${computerScore} :`;
+}
+
 const checkLines = (lineClassification, grid) => {
   for (const [lineName, line] of Object.entries(grid[lineClassification])) {
     const state = Object.values(line).map(subArray => subArray[0])
@@ -49,6 +56,15 @@ const checkLines = (lineClassification, grid) => {
 
     if (state.every(value => value === true) && player.every(value => value === player[0] && value !== undefined)) {
       console.log('congrats')
+      console.log(player[0])
+      
+      if (player[0] === 'monkey') {
+        monkeyScore++
+      } else if (player[0] === 'computer') {
+        computerScore++
+      }
+
+      trackScore()
     }
   }
 }
@@ -135,10 +151,8 @@ const computerMove = (cells, grid) => {
 
   if (lineClassificationNum === 0) {
     randomCell = getRandomMove(grid, 'row', randomCell)
-
   } else if (lineClassificationNum === 1) {
     randomCell = getRandomMove(grid, 'column')
-
   } else if (lineClassificationNum === 2) {
     randomCell = getRandomMove(grid, 'diagonal')
   }
@@ -167,6 +181,9 @@ const playerMove = (cells, grid, player, usedInGrid) => {
 
       if (usedInGrid !== 9) {
         computerMove(cells, grid)
+        checkLines('rows', grid)
+        checkLines('columns', grid)
+        checkLines('diagonals', grid)
         usedInGrid++
       }
     })
