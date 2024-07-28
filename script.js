@@ -9,6 +9,7 @@ const mediumButton = document.querySelector('.js-medium-button')
 const hardButton = document.querySelector('.js-hard-button')
 let monkeyScore = 0
 let computerScore = 0
+let isPlaying = true
 
 const generateGrid = () => {
   let gridHTML = ''
@@ -60,8 +61,10 @@ const checkLines = (lineClassification, grid) => {
       
       if (player[0] === 'monkey') {
         monkeyScore++
+        isPlaying = false
       } else if (player[0] === 'computer') {
         computerScore++
+        isPlaying = false
       }
 
       trackScore()
@@ -167,24 +170,26 @@ const computerMove = (cells, grid) => {
 const playerMove = (cells, grid, player, usedInGrid) => {
   cells.forEach((cell) => {
     cell.addEventListener('click', () => {
-      const cellId = cell.id 
-
-      matchPosition(cellId, 'rows', grid, player)
-      matchPosition(cellId, 'columns', grid, player)
-      matchPosition(cellId, 'diagonals', grid, player)
-      checkLines('rows', grid)
-      checkLines('columns', grid)
-      checkLines('diagonals', grid)
-      usedInGrid++
-
-      cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
-
-      if (usedInGrid !== 9) {
-        computerMove(cells, grid)
+      if (isPlaying === true) {
+        const cellId = cell.id 
+  
+        matchPosition(cellId, 'rows', grid, player)
+        matchPosition(cellId, 'columns', grid, player)
+        matchPosition(cellId, 'diagonals', grid, player)
         checkLines('rows', grid)
         checkLines('columns', grid)
         checkLines('diagonals', grid)
         usedInGrid++
+  
+        cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
+  
+        if (usedInGrid !== 9 && isPlaying === true) {
+          computerMove(cells, grid)
+          checkLines('rows', grid)
+          checkLines('columns', grid)
+          checkLines('diagonals', grid)
+          usedInGrid++
+        }
       }
     })
   })
