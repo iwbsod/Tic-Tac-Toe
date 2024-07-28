@@ -96,10 +96,6 @@ const getRandomMove = (grid, lineClassificationName) => {
     }
   }
 
-  console.log('usedCells',usedCells)
-
-  console.log('num of used', numOfUsed)
-
   if (numOfUsed === 3) {
     //infinite loop
     return getRandomMove(grid, lineClassificationName)
@@ -125,7 +121,7 @@ const getRandomMove = (grid, lineClassificationName) => {
       }
     }
   }
-  
+
   matchPosition(randomCell, 'rows', grid, 'computer')
   matchPosition(randomCell, 'columns', grid, 'computer')
   matchPosition(randomCell, 'diagonals', grid, 'computer')
@@ -139,19 +135,13 @@ const computerMove = (cells, grid) => {
 
   if (lineClassificationNum === 0) {
     randomCell = getRandomMove(grid, 'row', randomCell)
-    console.log(randomCell, 'randommmmm0')
 
   } else if (lineClassificationNum === 1) {
     randomCell = getRandomMove(grid, 'column')
-    console.log(randomCell, 'randommmmm1')
 
   } else if (lineClassificationNum === 2) {
     randomCell = getRandomMove(grid, 'diagonal')
-    console.log(randomCell, 'randommmmm2')
   }
-
-  console.log(randomCell, 'randommmmmhhhhhhh')
-
 
   cells.forEach((cell) => {
     if (cell.id === randomCell) {
@@ -160,7 +150,7 @@ const computerMove = (cells, grid) => {
   })
 }
 
-const playerMove = (cells, grid, player) => {
+const playerMove = (cells, grid, player, usedInGrid) => {
   cells.forEach((cell) => {
     cell.addEventListener('click', () => {
       const cellId = cell.id 
@@ -171,13 +161,14 @@ const playerMove = (cells, grid, player) => {
       checkLines('rows', grid)
       checkLines('columns', grid)
       checkLines('diagonals', grid)
-      console.log(grid)
+      usedInGrid++
 
       cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
 
-      computerMove(cells, grid)
-      console.log('grid', grid)
-
+      if (usedInGrid !== 9) {
+        computerMove(cells, grid)
+        usedInGrid++
+      }
     })
   })
 }
@@ -202,10 +193,11 @@ const startGame = () => {
         diagonal2: {2: [false], 4: [false], 6: [false]},
       },
     }
+    let usedInGrid = 0
     // const difficulty = chooseDifficulty()
     const cells = document.querySelectorAll('.js-cell')
-    
-    playerMove(cells, grid, 'monkey')
+
+    playerMove(cells, grid, 'monkey', usedInGrid)
 
   })
 }
