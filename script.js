@@ -3,7 +3,7 @@ const computerScoreElement = document.querySelector('.js-robot-score')
 const gridDisplay = document.querySelector('.js-grid')
 const difficultyDisplay = document.querySelector('.js-difficulty-container')
 const startGameButton = document.querySelector('.js-start-button')
-const resetGameButton = document.querySelector('.js-reset-button')
+const resetScoreButton = document.querySelector('.js-reset-button')
 const easyButton = document.querySelector('.js-easy-button')
 const mediumButton = document.querySelector('.js-medium-button')
 const hardButton = document.querySelector('.js-hard-button')
@@ -45,9 +45,19 @@ const chooseDifficulty = () => {
   })
 }
 
-const trackScore = () => {
+const generateScore = () => {
   monkeyScoreElement.innerHTML = `: ${monkeyScore}`;
   computerScoreElement.innerHTML = `${computerScore} :`;
+}
+
+const resetScore = () => {
+  resetScoreButton.addEventListener('click', () => {
+    monkeyScore = 0
+    computerScore = 0
+    localStorage.removeItem('monkeyScore', (monkeyScore).toString())
+    localStorage.removeItem('computerScore', (computerScore).toString())
+    generateScore()
+  })
 }
 
 const checkLines = (lineClassification, grid) => {
@@ -55,23 +65,20 @@ const checkLines = (lineClassification, grid) => {
     const state = Object.values(line).map(subArray => subArray[0])
     const player = Object.values(line).map(subArray => subArray[1])
 
-    if (state.every(value => value === true) && player.every(value => value === player[0] && value !== undefined)) {
-      console.log('congrats')
-      console.log(player[0])
-      
+    if (state.every(value => value === true) && player.every(value => value === player[0] && value !== undefined)) { 
       if (player[0] === 'monkey') {
         monkeyScore++
-        localStorage.setItem('monkeyScore', monkeyScore)
+        localStorage.setItem('monkeyScore', (monkeyScore).toString())
         isPlaying = false
         restartGame()
       } else if (player[0] === 'computer') {
         computerScore++
-        localStorage.setItem('monkeyScore', computerScore)
+        localStorage.setItem('computerScore', (computerScore).toString())
         isPlaying = false
         restartGame()
       }
 
-      trackScore()
+      generateScore()
     }
   }
 }
@@ -236,6 +243,7 @@ const startGame = () => {
   })
 }
 
-trackScore()
+generateScore()
+resetScore()
 startGame()
 
