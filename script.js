@@ -7,9 +7,9 @@ const resetGameButton = document.querySelector('.js-reset-button')
 const easyButton = document.querySelector('.js-easy-button')
 const mediumButton = document.querySelector('.js-medium-button')
 const hardButton = document.querySelector('.js-hard-button')
-let monkeyScore = 0
-let computerScore = 0
-let isPlaying = true
+let monkeyScore = parseFloat(localStorage.getItem('monkeyScore')) || 0
+let computerScore = parseFloat(localStorage.getItem('computerScore')) || 0
+let isPlaying;
 
 const generateGrid = () => {
   let gridHTML = ''
@@ -61,15 +61,23 @@ const checkLines = (lineClassification, grid) => {
       
       if (player[0] === 'monkey') {
         monkeyScore++
+        localStorage.setItem('monkeyScore', monkeyScore)
         isPlaying = false
+        restartGame()
       } else if (player[0] === 'computer') {
         computerScore++
+        localStorage.setItem('monkeyScore', computerScore)
         isPlaying = false
+        restartGame()
       }
 
       trackScore()
     }
   }
+}
+
+const restartGame = () => {
+  startGameButton.innerHTML = 'Restart Game';
 }
 
 const matchPosition = (position, lineClassification, grid, player) => {
@@ -189,6 +197,9 @@ const playerMove = (cells, grid, player, usedInGrid) => {
           checkLines('columns', grid)
           checkLines('diagonals', grid)
           usedInGrid++
+        } else {
+          isPlaying = false
+          restartGame()
         }
       }
     })
@@ -216,6 +227,7 @@ const startGame = () => {
       },
     }
     let usedInGrid = 0
+    isPlaying = true;
     // const difficulty = chooseDifficulty()
     const cells = document.querySelectorAll('.js-cell')
 
@@ -224,5 +236,6 @@ const startGame = () => {
   })
 }
 
+trackScore()
 startGame()
 
