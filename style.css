@@ -4,12 +4,17 @@
   box-sizing: border-box;
 }
 
-body {
-  height: 100vh;
+:root {
+  --grid-border-style: 4px solid #16161a;
+  --button-border-color: #7f5af0;
 }
 
-:root {
-  --border-style: 3px solid grey
+body {
+  height: 100vh;
+  background-color: #16161a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-container {
@@ -21,15 +26,19 @@ body {
 
 .main-container h1 {
   font-family: 'vt323';
-  font-size: 50px;
-  margin: 10px 0;
+  font-size: 60px;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .main-container .scores-container {
   display: flex;
   align-items: center;
   gap: 100px;
-  margin-bottom: 10px;
+  background-color: #ffffff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  border: 5px solid var(--button-border-color);
 }
 
 .scores-container img {
@@ -43,25 +52,29 @@ body {
 }
 
 .scores-container span {
-  font-size: 20px;
+  font-size: 25px;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
+  color: #16161a;
 }
 
 .main-container .grid {
   display: grid;
   grid-template-columns: 120px 120px 120px;;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  border: var(--grid-border-style);
 }
 
 .grid .cell {
   height: 120px;
   width: 120px;
-  border: var(--border-style);
+  border: var(--grid-border-style);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #fff;
+  border-radius: 8px;
 }
 
 .grid .move-preview {
@@ -77,9 +90,19 @@ body {
   height: 60px;
 }
 
+.main-container .buttons {
+  display: flex;
+  gap: 10px;
+}
+
 button {
-  padding: 10px 15px;
-  font-size: 15px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: var(--button-border-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
