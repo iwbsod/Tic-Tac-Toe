@@ -64,6 +64,15 @@ body {
   justify-content: center;
 }
 
+.grid .move-preview {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.grid .move-preview:hover {
+  opacity: 0.5;
+}
+
 .cell .cell-image {
   height: 60px;
 }
@@ -74,24 +83,3 @@ button {
   cursor: pointer;
 }
 
-.difficulty-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 200px;
-  width: 350px;
-  background-color: teal;
-  border-radius: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-  display: none;
-}
-
-.difficulty-container span {
-  font-size: 18px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-}

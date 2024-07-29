@@ -1,12 +1,8 @@
 const monkeyScoreElement = document.querySelector('.js-human-score')
 const computerScoreElement = document.querySelector('.js-robot-score')
 const gridDisplay = document.querySelector('.js-grid')
-const difficultyDisplay = document.querySelector('.js-difficulty-container')
 const startGameButton = document.querySelector('.js-start-button')
 const resetScoreButton = document.querySelector('.js-reset-button')
-const easyButton = document.querySelector('.js-easy-button')
-const mediumButton = document.querySelector('.js-medium-button')
-const hardButton = document.querySelector('.js-hard-button')
 let monkeyScore = parseFloat(localStorage.getItem('monkeyScore')) || 0
 let computerScore = parseFloat(localStorage.getItem('computerScore')) || 0
 let isPlaying;
@@ -17,32 +13,15 @@ const generateGrid = () => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         gridHTML += `
-          <div class="cell js-cell" id="${cellIndex}"></div>
+          <div class="cell js-cell" id="${cellIndex}">
+            <img class="cell-image move-preview" src="assets/monkey.png" alt="">
+          </div>
         `
         cellIndex++
       }
     }
 
     gridDisplay.innerHTML = gridHTML
-}
-
-const chooseDifficulty = () => {
-  difficultyDisplay.style.display = 'flex'
-
-  easyButton.addEventListener('click', () => {
-    difficultyDisplay.style.display = 'none'
-    return 'easy'
-  })
-
-  mediumButton.addEventListener('click', () => {
-    difficultyDisplay.style.display = 'none'
-    return 'medium'
-  })
-
-  hardButton.addEventListener('click', () => {
-    difficultyDisplay.style.display = 'none'
-    return 'hard'
-  })
 }
 
 const generateScore = () => {
@@ -235,7 +214,6 @@ const startGame = () => {
     }
     let usedInGrid = 0
     isPlaying = true;
-    // const difficulty = chooseDifficulty()
     const cells = document.querySelectorAll('.js-cell')
 
     playerMove(cells, grid, 'monkey', usedInGrid)
