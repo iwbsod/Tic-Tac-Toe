@@ -14,7 +14,7 @@ const generateGrid = () => {
       for (let j = 0; j < 3; j++) {
         gridHTML += `
           <div class="cell js-cell" id="${cellIndex}">
-            <img class="cell-image move-preview" src="assets/monkey.png" alt="">
+            <img class="cell-image move-preview js-image" src="assets/monkey.png" alt="">
           </div>
         `
         cellIndex++
@@ -27,6 +27,18 @@ const generateGrid = () => {
 const generateScore = () => {
   monkeyScoreElement.innerHTML = `: ${monkeyScore}`;
   computerScoreElement.innerHTML = `${computerScore} :`;
+}
+
+const removeHover = () => {
+  const images = document.querySelectorAll('.js-image')
+
+  images.forEach((image) => {
+    const classes = Object.values(image.classList)
+
+    if (classes.includes('move-preview')) {
+      image.style.display = 'none'
+    }
+  })
 }
 
 const resetScore = () => {
@@ -186,6 +198,7 @@ const playerMove = (cells, grid, player, usedInGrid) => {
         } else {
           isPlaying = false
           restartGame()
+          removeHover()
         }
       }
     })
