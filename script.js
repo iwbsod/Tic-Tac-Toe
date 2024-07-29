@@ -6,6 +6,7 @@ const resetScoreButton = document.querySelector('.js-reset-button')
 let monkeyScore = parseFloat(localStorage.getItem('monkeyScore')) || 0
 let computerScore = parseFloat(localStorage.getItem('computerScore')) || 0
 let isPlaying;
+let taken = false;
 
 const generateGrid = () => {
   let gridHTML = ''
@@ -81,10 +82,13 @@ const restartGame = () => {
 const matchPosition = (position, lineClassification, grid, player) => {
   for (const [lineName, line] of Object.entries(grid[lineClassification])) {
     for (const [cellName, cellValue] of Object.entries(line)) {
-      if (cellName === position) { 
+      if (cellName === position) {
+        taken = false 
         if (cellValue.length !== 2) {
           grid[lineClassification][lineName][cellName][0] = true
           grid[lineClassification][lineName][cellName].push(player)
+        } else {
+          taken = true
         }
       }
     }
@@ -122,7 +126,6 @@ const getRandomMove = (grid, lineClassificationName) => {
   }
 
   if (numOfUsed === 3) {
-    //infinite loop
     return getRandomMove(grid, lineClassificationName)
   }
 
@@ -182,23 +185,26 @@ const playerMove = (cells, grid, player, usedInGrid) => {
         matchPosition(cellId, 'rows', grid, player)
         matchPosition(cellId, 'columns', grid, player)
         matchPosition(cellId, 'diagonals', grid, player)
-        checkLines('rows', grid)
-        checkLines('columns', grid)
-        checkLines('diagonals', grid)
-        usedInGrid++
-  
-        cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
-  
-        if (usedInGrid !== 9 && isPlaying === true) {
-          computerMove(cells, grid)
+
+        if (taken === false) {
           checkLines('rows', grid)
           checkLines('columns', grid)
           checkLines('diagonals', grid)
           usedInGrid++
-        } else {
-          isPlaying = false
-          restartGame()
-          removeHover()
+    
+          cell.innerHTML = `<img class="cell-image" src="assets/${player}.png" alt="">`
+
+          if (usedInGrid !== 9 && isPlaying === true) {
+            computerMove(cells, grid)
+            checkLines('rows', grid)
+            checkLines('columns', grid)
+            checkLines('diagonals', grid)
+            usedInGrid++
+          } else {
+            isPlaying = false
+            restartGame()
+            removeHover()
+          }
         }
       }
     })
