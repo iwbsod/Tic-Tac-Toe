@@ -100,7 +100,6 @@ const getRandomNumber = (num) => {
 }
 
 const getRandomMove = (grid, lineClassificationName) => {
-  console.log('-----------')
   const lineClassification = grid[`${lineClassificationName}s`]
   let randomLineNumber;
   let line;
@@ -119,7 +118,6 @@ const getRandomMove = (grid, lineClassificationName) => {
 
   for (const [lineName, lineValue] of Object.entries(line)) {
     if (lineValue.length === 2) {
-      console.log('linevalue', lineName)
       numOfUsed++
       usedCells.push(lineName)
     }
